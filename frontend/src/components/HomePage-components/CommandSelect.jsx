@@ -79,7 +79,7 @@ const commands = {
         GO
       </Button>
     </Box>
-    <Box sx={{ height: '400px', flex : 1, overflowX: 'auto',overflowY : "auto", whiteSpace : 'nowrap', backgroundColor: theme === 'light' ? '#000' : '#fff',  margin : 1, borderRadius : 2, padding : 2}}>
+    <Box sx={{ height: '400px', flex : 1, overflowX: 'auto',overflowY : "auto", whiteSpace : 'nowrap', backgroundColor: theme === 'light' ? '#000' : '#fff',  margin : 3, borderRadius : 2, padding : 2}}>
         {/* Whilte getting output from the backend, loop it make each one in one typography element to show in a single line. */}
         <Typography variant='body1' sx={{
             color : theme === 'light' ? '#fff' : '#000',
