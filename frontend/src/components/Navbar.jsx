@@ -12,11 +12,14 @@ import { Stack } from "@mui/material";
 import SideDrawer from "./navbar-components/SideDrawer";
 import { useState, useContext } from "react";
 import authContext from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import ThemeToggle from "./navbar-components/ThemeToggle";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { user, logout } = useContext(authContext);
+  const navigate = useNavigate();
 
   const setDrawerState = (open) => {
     setDrawerOpen(open);
@@ -59,13 +62,10 @@ export default function Navbar() {
           </Typography>
 
           <Stack direction="row" sx={{ alignItems: "center" }}>
-            {/* <Stack>
-                <ThemeToggle />
-                <Typography variant="boday2">Dark Mode</Typography>
-            </Stack> */}
             {user === null ? (
               <>
-                <Typography variant="body1">Please Login</Typography>
+                <Typography variant="body1">Dark Mode</Typography>
+                <ThemeToggle />
               </>
             ) : (
               <>

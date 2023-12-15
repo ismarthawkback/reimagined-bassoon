@@ -1,11 +1,11 @@
 import {
   Box,
-  Container,
   Paper,
   TextField,
   Stack,
   Typography,
   Button,
+  Snackbar,
 } from "@mui/material";
 import React from "react";
 import { useState, useContext, useEffect } from "react";
@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { user, login } = useContext(authContext);
+  const { user, login, error } = useContext(authContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async () => {
@@ -24,9 +24,21 @@ export default function LoginForm() {
     await login({ email: username, password });
   };
 
+  const closeSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
   useEffect(() => {
     if (user !== null) {
       navigate("/");
+    } else {
+      if (error.message !== null) {
+        setSnackbarOpen(true);
+      }
     }
   }, [user]);
   return (
@@ -67,6 +79,16 @@ export default function LoginForm() {
           <Button onClick={handleSubmit}>Login</Button>
         </Stack>
       </Paper>
+      {error.message && (
+        <>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={closeSnackbar}
+            message={error.message}
+          />
+        </>
+      )}
     </Box>
   );
 }

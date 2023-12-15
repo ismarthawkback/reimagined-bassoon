@@ -1,16 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext } from "react";
 
-import { ThemeContext } from '../../contexts/ThemeContext'
-import Switch from '@mui/material/Switch'
+import { ThemeContext } from "../../contexts/ThemeContext";
+import Switch from "@mui/material/Switch";
 
 export default function ThemeToggle() {
-    const {toggleTheme, theme} = useContext(ThemeContext)
+  const { toggleTheme, theme } = useContext(ThemeContext);
   return (
     <>
-        <Switch
-          onChange={toggleTheme}
-          defaultChecked={theme === 'dark' ? true : false}
-        />
+      <Switch
+        onChange={toggleTheme}
+        checked={theme === "dark" ? true : false}
+      />
     </>
-  )
+  );
 }
