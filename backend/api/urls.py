@@ -21,6 +21,6 @@ for model in app_models:
         'queryset': model.objects.all(),
         'serializer_class': serializer_class,
     })
-    router.register(f'{model.__name__.lower()}s', viewset_class)  # Assuming you're using DefaultRouter
+    router.register(f'{model.__name__.lower()}s', viewset_class)  
 
 urlpatterns = router.urls
