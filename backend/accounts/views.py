@@ -4,6 +4,11 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
 
+from rest_framework import viewsets
+from django.apps import apps
+from django.contrib.contenttypes.models import ContentType
+from api.models import *
+
 # Create your views here.
 
 
@@ -18,3 +23,9 @@ class GetRoutes(APIView):
         # print(request)
         routes = ['banglore', 'kolkath']
         return Response(routes)
+
+# all models viewset
+
+
+
+

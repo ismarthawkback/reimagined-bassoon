@@ -61,7 +61,7 @@ export const AuthContextProvider = ({ children }) => {
         if (refreshToken) {
           try {
             const response = await fetch(
-              import.meta.env.BACKEND_ENDPOINT + "/auth/token/refresh/",
+              BACKEND_ENDPOINT + "/auth/token/refresh/",
               {
                 method: "POST",
                 headers: {

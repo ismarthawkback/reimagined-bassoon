@@ -31,22 +31,6 @@ function App() {
         <AuthContextProvider>
           <Navbar />
           <Routes>
-            {/* <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <HomePage />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/database" element={<DatabasePage />}>
-                <Route path="" element={<DatabaseTables />} />
-                <Route path=":table" element={<DatabaseTable />} />
-                <Route path=":table/new" element={<DatabaseForm />} />
-                <Route path=":table/:id" element={<DatabaseForm />} />
-              </Route>
-            </Route>
-            <Route path="login" element={<LoginPage />} /> */}
             <Route path="login" element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="" element={<HomePage />} />
@@ -58,11 +42,6 @@ function App() {
               </Route>
             </Route>
           </Routes>
-          {/* <DatabasePage /> */}
-          {/* <LoginPage />
-      <HomePage /> */}
-
-          {/* <ThemeToggle /> */}
         </AuthContextProvider>
       </ThemeProvider>
     </>
