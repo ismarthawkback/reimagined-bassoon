@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 const authContext = createContext();
+import useBaseURL from "../hooks/useBaseURL";
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -8,6 +9,8 @@ export const AuthContextProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ message: null });
+
+  const { BACKEND_ENDPOINT } = useBaseURL();
 
   const getUserFromToken = (token) => {
     if (token) {
@@ -19,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (credentials) => {
     setIsLoading(true);
     setError({ message: null });
-    const response = await fetch("https://vr5pp5-8000.csb.app/auth/token/", {
+    const response = await fetch(BACKEND_ENDPOINT + "/auth/token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +61,7 @@ export const AuthContextProvider = ({ children }) => {
         if (refreshToken) {
           try {
             const response = await fetch(
-              "https://vr5pp5-8000.csb.app/auth/token/refresh/",
+              import.meta.env.BACKEND_ENDPOINT + "/auth/token/refresh/",
               {
                 method: "POST",
                 headers: {

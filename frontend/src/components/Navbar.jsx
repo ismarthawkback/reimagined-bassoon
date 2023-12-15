@@ -69,7 +69,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Typography variant="body1">Hello, Damodar</Typography>
+                <Typography variant="body1">Hello, {user.username}</Typography>
                 <IconButton
                   size="large"
                   aria-controls="menu-appbar"

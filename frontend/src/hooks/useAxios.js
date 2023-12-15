@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import authContext from "../contexts/AuthContext";
+import useBaseURL from "../hooks/useBaseURL";
 
 const useAxios = () => {
   const { accessToken } = useContext(authContext);
+  const { BACKEND_ENDPOINT } = useBaseURL();
 
   const axiosInstance = axios.create({
-    baseURL: "https://vr5pp5-8000.csb.app/api", // Replace with your actual API URL
+    baseURL: BACKEND_ENDPOINT + "/api", // Replace with your actual API URL
   });
 
   axiosInstance.interceptors.request.use((config) => {

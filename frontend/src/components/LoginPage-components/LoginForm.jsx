@@ -64,7 +64,7 @@ export default function LoginForm() {
         >
           <Typography variant="h4">Login Here !</Typography>
           <TextField
-            label="Username"
+            label="Email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth

@@ -9,7 +9,7 @@ class UserAccountManager(BaseUserManager) :
             return ValueError('Email is required to create an user')
         user = self.model(
             email = self.normalize_email(email=email),
-            username = username
+            username = username.title()
         )
         user.set_password(password)
         user.save()
@@ -20,7 +20,7 @@ class UserAccountManager(BaseUserManager) :
             return ValueError('Email is required to create an user')
         user = self.model(
             email = self.normalize_email(email=email),
-            username = username
+            username = username.title()
         )
         user.set_password(password)
         user.is_admin = True
