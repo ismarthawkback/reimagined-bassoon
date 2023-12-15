@@ -47,8 +47,21 @@ const FilterTable = () => {
   const { get } = useAxios();
   const { table } = useParams();
 
-  const columns = [
-    {
+  const [rows, setRows] = useState(null);
+  const [columns, setColumns] = useState(null);
+
+  // console.log(pathname)
+
+  const fetchData = async () => {
+    const res = await get("/" + table + "s/");
+    const keys = Object.keys(res[0]);
+    const generatedColumns = keys.map((key) => ({
+      field: key,
+      headerName: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize first letter
+      width: 200,
+    }));
+
+    generatedColumns.unshift({
       field: "edit",
       headerName: "Edit",
       width: 50,
@@ -65,20 +78,10 @@ const FilterTable = () => {
           <EditIcon />
         </IconButton>
       ),
-    },
-    { field: "id", headerName: "ID", width: 200 },
-    { field: "firstName", headerName: "First Name", width: 200 },
-    { field: "lastName", headerName: "Last Name", width: 200 },
-    { field: "age", headerName: "Age", type: "number", width: 200 },
-    { field: "email", headerName: "Email", width: 200 },
-  ];
+    });
 
-  const rows = React.useMemo(() => generateRows(), []);
-
-  // console.log(pathname)
-
-  const fetchData = async () => {
-    const res = await get("/" + table + "s/");
+    setColumns(generatedColumns);
+    setRows(res);
   };
 
   useEffect(() => {
@@ -87,42 +90,46 @@ const FilterTable = () => {
 
   return (
     <div style={{ height: "65vh", width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        checkboxSelection
-        slots={{
-          toolbar: GridToolbar,
-        }}
-        disableRowSelectionOnClick
-        rowSelectionModel={selectionModel}
-        onRowSelectionModelChange={setSelectionModel}
-      />
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: "absolute", top: 150, right: 48 }}
-        icon={<Tune />}
-        direction="left"
-      >
-        {selectionModel.length === 0 ? (
-          <SpeedDialAction
-            icon={<AddIcon />}
-            tooltipTitle={"Add Row"}
-            onClick={() => {
-              navigate(pathname + "/new");
+      {rows && (
+        <>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            checkboxSelection
+            slots={{
+              toolbar: GridToolbar,
             }}
+            disableRowSelectionOnClick
+            rowSelectionModel={selectionModel}
+            onRowSelectionModelChange={setSelectionModel}
           />
-        ) : (
-          <SpeedDialAction
-            icon={<DeleteForeverIcon />}
-            tooltipTitle={"Delete Rows"}
-            onClick={(e) => {
-              alert("Rows Deleted");
-            }}
-          />
-        )}
-      </SpeedDial>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", top: 150, right: 48 }}
+            icon={<Tune />}
+            direction="left"
+          >
+            {selectionModel.length === 0 ? (
+              <SpeedDialAction
+                icon={<AddIcon />}
+                tooltipTitle={"Add Row"}
+                onClick={() => {
+                  navigate(pathname + "/new");
+                }}
+              />
+            ) : (
+              <SpeedDialAction
+                icon={<DeleteForeverIcon />}
+                tooltipTitle={"Delete Rows"}
+                onClick={(e) => {
+                  alert("Rows Deleted");
+                }}
+              />
+            )}
+          </SpeedDial>
+        </>
+      )}
     </div>
   );
 };
