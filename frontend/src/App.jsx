@@ -31,14 +31,25 @@ function App() {
         <AuthContextProvider>
           <Navbar />
           <Routes>
-            <Route
-              path=""
+            {/* <Route
+              path="/"
               element={
                 <ProtectedRoute>
                   <HomePage />
                 </ProtectedRoute>
               }
             >
+              <Route path="/database" element={<DatabasePage />}>
+                <Route path="" element={<DatabaseTables />} />
+                <Route path=":table" element={<DatabaseTable />} />
+                <Route path=":table/new" element={<DatabaseForm />} />
+                <Route path=":table/:id" element={<DatabaseForm />} />
+              </Route>
+            </Route>
+            <Route path="login" element={<LoginPage />} /> */}
+            <Route path="login" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="" element={<HomePage />} />
               <Route path="database" element={<DatabasePage />}>
                 <Route path="" element={<DatabaseTables />} />
                 <Route path=":table" element={<DatabaseTable />} />
@@ -46,16 +57,6 @@ function App() {
                 <Route path=":table/:id" element={<DatabaseForm />} />
               </Route>
             </Route>
-            <Route path="login" element={<LoginPage />} />
-
-            {/* <Route path="" element={<HomePage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="database" element={<DatabasePage />}>
-            <Route path="" element={<DatabaseTables />} />
-            <Route path=":table" element={<DatabaseTable />} />
-            <Route path=":table/new" element={<DatabaseForm />} />
-            <Route path=":table/:id" element={<DatabaseForm />} />
-          </Route> */}
           </Routes>
           {/* <DatabasePage /> */}
           {/* <LoginPage />

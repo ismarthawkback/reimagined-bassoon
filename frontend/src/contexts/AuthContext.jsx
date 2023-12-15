@@ -7,7 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({ message: null });
 
   const getUserFromToken = (token) => {
     if (token) {
@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (credentials) => {
     setIsLoading(true);
-    setError(null);
+    setError({ message: null });
     const response = await fetch("https://vr5pp5-8000.csb.app/auth/token/", {
       method: "POST",
       headers: {
@@ -33,12 +33,12 @@ export const AuthContextProvider = ({ children }) => {
       setUser(user);
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
-      setError("logged in");
+      setError({ message: "Logged In" });
       console.log(user);
     } else {
       // Handle errors
       console.log(data);
-      setError("Invalid Credentials");
+      setError({ message: "Invalid Credentials" });
     }
   };
 
@@ -49,7 +49,7 @@ export const AuthContextProvider = ({ children }) => {
     setAccessToken(null);
     setRefreshToken(null);
     setIsLoading(false);
-    setError("logged out");
+    setError({ message: "logged out" });
   };
 
   useEffect(() => {
