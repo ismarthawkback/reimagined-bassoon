@@ -10,3 +10,4 @@ PyJWT
 pytz
 sqlparse
 typing_extensions
+mysqlclient
