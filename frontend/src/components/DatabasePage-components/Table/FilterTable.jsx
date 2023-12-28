@@ -18,7 +18,7 @@ const FilterTable = () => {
   const [selectionModel, setSelectionModel] = React.useState([]);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { get } = useAxios();
+  const { get, del } = useAxios();
   const { table } = useParams();
 
   const [rows, setRows] = useState(null);
@@ -87,6 +87,21 @@ const FilterTable = () => {
     }
   };
 
+  const handleDeleteButtonClick = async () => {
+    if (selectionModel.length > 0) {
+      try {
+        for (const selectedId of selectionModel) {
+          await del(`/${table}s/${selectedId}`); // Adjust the API endpoint as per your backend
+        }
+        // After deletion, refresh the data
+        fetchData();
+        setSelectionModel([]); // Clear selection after deletion
+      } catch (error) {
+        console.error("Error deleting rows:", error);
+      }
+    }
+  };
+
   return (
     <div style={{ height: "65vh", width: "100%" }}>
       {rows !== null ? (
@@ -128,9 +143,7 @@ const FilterTable = () => {
               <SpeedDialAction
                 icon={<DeleteForeverIcon />}
                 tooltipTitle={"Delete Rows"}
-                onClick={(e) => {
-                  alert("Rows Deleted");
-                }}
+                onClick={handleDeleteButtonClick}
               />
               <SpeedDialAction
                 icon={<SaveIcon />}
