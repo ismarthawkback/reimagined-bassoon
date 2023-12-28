@@ -180,7 +180,6 @@ class AstSipfriends(models.Model):
 
 
 class AstVoicemailUsers(models.Model):
-    uniqueid = models.AutoField(primary_key=True)
     customer_id = models.CharField(max_length=11)
     context = models.CharField(max_length=50)
     mailbox = models.CharField(max_length=11)
