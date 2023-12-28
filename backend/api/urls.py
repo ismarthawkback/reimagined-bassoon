@@ -1,9 +1,8 @@
 from rest_framework.routers import DefaultRouter
-from api.views import BookViewSet, AllModels
+from api.views import  AllModels
 
 router = DefaultRouter()
 
-router.register('books', viewset=BookViewSet, basename='books')
 router.register('models', viewset=AllModels, basename = "models")
 
 from rest_framework import viewsets, serializers
