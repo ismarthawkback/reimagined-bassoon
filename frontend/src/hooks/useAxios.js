@@ -38,7 +38,12 @@ const useAxios = () => {
     return response.data;
   };
 
-  return { get, post, put, del }; // alias delete to avoid conflict with reserved keyword
+  const options = async (url, config = {}) => {
+    const response = await axiosInstance.options(url, config);
+    return response.data;
+  };
+
+  return { get, post, put, del, options }; // alias delete to avoid conflict with reserved keyword
 };
 
 export default useAxios;

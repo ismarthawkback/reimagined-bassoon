@@ -15,6 +15,9 @@ import DatabaseForm from "./components/DatabasePage-components/Form/DatabaseForm
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -26,24 +29,26 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={appTheme}>
-        <CssBaseline />
-        <AuthContextProvider>
-          <Navbar />
-          <Routes>
-            <Route path="login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="" element={<HomePage />} />
-              <Route path="database" element={<DatabasePage />}>
-                <Route path="" element={<DatabaseTables />} />
-                <Route path=":table" element={<DatabaseTable />} />
-                <Route path=":table/new" element={<DatabaseForm />} />
-                <Route path=":table/:id" element={<DatabaseForm />} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <ThemeProvider theme={appTheme}>
+          <CssBaseline />
+          <AuthContextProvider>
+            <Navbar />
+            <Routes>
+              <Route path="login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="" element={<HomePage />} />
+                <Route path="database" element={<DatabasePage />}>
+                  <Route path="" element={<DatabaseTables />} />
+                  <Route path=":table" element={<DatabaseTable />} />
+                  <Route path=":table/new" element={<DatabaseForm />} />
+                  <Route path=":table/:id" element={<DatabaseForm />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </AuthContextProvider>
-      </ThemeProvider>
+            </Routes>
+          </AuthContextProvider>
+        </ThemeProvider>
+      </LocalizationProvider>
     </>
   );
 }
