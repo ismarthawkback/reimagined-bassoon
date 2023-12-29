@@ -104,6 +104,40 @@ const FilterTable = () => {
 
   return (
     <div style={{ height: "65vh", width: "100%" }}>
+      {selectionModel.length === 0 ? (
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "absolute", top: 150, right: 48 }}
+          icon={<Tune />}
+          direction="left"
+        >
+          <SpeedDialAction
+            icon={<AddIcon />}
+            tooltipTitle={"Add Row"}
+            onClick={() => {
+              navigate(pathname + "/new");
+            }}
+          />
+        </SpeedDial>
+      ) : (
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "absolute", top: 150, right: 48 }}
+          icon={<Tune />}
+          direction="left"
+        >
+          <SpeedDialAction
+            icon={<DeleteForeverIcon />}
+            tooltipTitle={"Delete Rows"}
+            onClick={handleDeleteButtonClick}
+          />
+          <SpeedDialAction
+            icon={<SaveIcon />}
+            tooltipTitle={"Save Selected"}
+            onClick={handleSaveButtonClick}
+          />
+        </SpeedDial>
+      )}
       {rows !== null ? (
         <>
           <DataGrid
@@ -118,40 +152,6 @@ const FilterTable = () => {
             rowSelectionModel={selectionModel}
             onRowSelectionModelChange={setSelectionModel}
           />
-          {selectionModel.length === 0 ? (
-            <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{ position: "absolute", top: 150, right: 48 }}
-              icon={<Tune />}
-              direction="left"
-            >
-              <SpeedDialAction
-                icon={<AddIcon />}
-                tooltipTitle={"Add Row"}
-                onClick={() => {
-                  navigate(pathname + "/new");
-                }}
-              />
-            </SpeedDial>
-          ) : (
-            <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{ position: "absolute", top: 150, right: 48 }}
-              icon={<Tune />}
-              direction="left"
-            >
-              <SpeedDialAction
-                icon={<DeleteForeverIcon />}
-                tooltipTitle={"Delete Rows"}
-                onClick={handleDeleteButtonClick}
-              />
-              <SpeedDialAction
-                icon={<SaveIcon />}
-                tooltipTitle={"Save Selected"}
-                onClick={handleSaveButtonClick}
-              />
-            </SpeedDial>
-          )}
         </>
       ) : (
         <Typography variant="h2">Records are empty </Typography>
