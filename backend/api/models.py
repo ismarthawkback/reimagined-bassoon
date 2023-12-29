@@ -83,16 +83,31 @@ class AstSipfriends(models.Model):
     useragent = models.CharField(max_length=20, blank=True, null=True)
     lastms = models.IntegerField(blank=True, null=True)
     host = models.CharField(max_length=40, blank=True, null=True)
-    type = models.CharField(max_length=6, blank=True, null=True)
+    type = models.CharField(max_length=6, blank=True, null=True, choices=[
+        ('friend', 'friend'),
+        ('user', 'user'),
+        ('peer', 'peer')
+    ])
     context = models.CharField(max_length=40, blank=True, null=True)
     permit = models.CharField(max_length=95, blank=True, null=True)
     deny = models.CharField(max_length=95, blank=True, null=True)
     secret = models.CharField(max_length=40, blank=True, null=True)
     md5secret = models.CharField(max_length=40, blank=True, null=True)
     remotesecret = models.CharField(max_length=40, blank=True, null=True)
-    transport = models.CharField(max_length=7, blank=True, null=True)
-    dtmfmode = models.CharField(max_length=9, blank=True, null=True)
-    directmedia = models.CharField(max_length=6, blank=True, null=True)
+    transport = models.CharField(max_length=7, blank=True, null=True, choices=[
+        ('udp', 'udp'),
+        ('tcp', 'tcp'),
+        ('udp,tcp', 'udp,tcp'),
+        ('tcp,upd', 'tcp,udp'),
+    ])
+    dtmChoices = ['rfc2833','info','shortinfo','inband','auto']
+    dtmfmode = models.CharField(max_length=9, blank=True, null=True, choices=[
+        (choice, choice) for choice in dtmChoices
+    ])
+    directMediaChoices = ['yes','no','nonat','update']
+    directmedia = models.CharField(max_length=6, blank=True, null=True, choices = [
+        (choice, choice) for choice in directMediaChoices
+    ])
     nat = models.CharField(max_length=29, blank=True, null=True)
     callgroup = models.CharField(max_length=40, blank=True, null=True)
     pickupgroup = models.CharField(max_length=40, blank=True, null=True)
@@ -100,36 +115,58 @@ class AstSipfriends(models.Model):
     disallow = models.CharField(max_length=40, blank=True, null=True)
     allow = models.CharField(max_length=40, blank=True, null=True)
     insecure = models.CharField(max_length=40, blank=True, null=True)
-    trustrpid = models.CharField(max_length=3, blank=True, null=True)
-    progressinband = models.CharField(max_length=5, blank=True, null=True)
-    promiscredir = models.CharField(max_length=3, blank=True, null=True)
-    useclientcode = models.CharField(max_length=3, blank=True, null=True)
-    accountcode = models.CharField(max_length=40, blank=True, null=True)
+    trustrpid = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    progressinband = models.CharField(max_length=5, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no'), ('never', 'never')
+    ])
+    promiscredir = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    useclientcode = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    accountcode = models.CharField(max_length=40, blank=True, null=True, )
     setvar = models.CharField(max_length=40, blank=True, null=True)
     callerid = models.CharField(max_length=40, blank=True, null=True)
     amaflags = models.CharField(max_length=40, blank=True, null=True)
-    callcounter = models.CharField(max_length=3, blank=True, null=True)
-    cc_agent_policy = models.CharField(max_length=7, blank=True, null=True)
-    cc_monitor_policy = models.CharField(max_length=7, blank=True, null=True)
+    callcounter = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    agentPolicyChoices = ['never','generic','native']
+    cc_agent_policy = models.CharField(max_length=7, blank=True, null=True, choices = [
+        (choice, choice) for choice in agentPolicyChoices 
+    ])
+    choices = ['never','generic','native']
+    cc_monitor_policy = models.CharField(max_length=7, blank=True, null=True, choices = [
+        (choice, choice) for choice in choices
+    ])
     busylevel = models.IntegerField(blank=True, null=True)
-    allowoverlap = models.CharField(max_length=3, blank=True, null=True)
-    allowsubscribe = models.CharField(max_length=3, blank=True, null=True)
-    videosupport = models.CharField(max_length=3, blank=True, null=True)
+    allowoverlap = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    allowsubscribe = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    videosupport = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     maxcallbitrate = models.IntegerField(blank=True, null=True)
-    rfc2833compensate = models.CharField(max_length=3, blank=True, null=True)
+    rfc2833compensate = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     mailbox = models.CharField(max_length=40, blank=True, null=True)
-    # Field renamed to remove unsuitable characters.
-    session_timers = models.CharField(
-        db_column='session-timers', max_length=9, blank=True, null=True)
-    # Field renamed to remove unsuitable characters.
-    session_expires = models.IntegerField(
-        db_column='session-expires', blank=True, null=True)
-    # Field renamed to remove unsuitable characters.
-    session_minse = models.IntegerField(
-        db_column='session-minse', blank=True, null=True)
-    # Field renamed to remove unsuitable characters.
-    session_refresher = models.CharField(
-        db_column='session-refresher', max_length=3, blank=True, null=True)
+    choices = ['accept','refuse','originate']
+    session_timers = models.CharField(db_column='session-timers', max_length=9, blank=True, null=True, choices= [
+        (choice, choice) for choice in choices
+    ])  # Field renamed to remove unsuitable characters.
+    session_expires = models.IntegerField(db_column='session-expires', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    session_minse = models.IntegerField(db_column='session-minse', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    choices = ['uac', 'uas']
+    session_refresher = models.CharField(db_column='session-refresher', max_length=3, blank=True, null=True, choices = [
+        (choice, choice) for choice in choices
+    ])  # Field renamed to remove unsuitable characters.
     t38pt_usertpsource = models.CharField(max_length=40, blank=True, null=True)
     regexten = models.CharField(max_length=40, blank=True, null=True)
     fromdomain = models.CharField(max_length=40, blank=True, null=True)
@@ -138,41 +175,67 @@ class AstSipfriends(models.Model):
     defaultip = models.CharField(max_length=45, blank=True, null=True)
     rtptimeout = models.IntegerField(blank=True, null=True)
     rtpholdtimeout = models.IntegerField(blank=True, null=True)
-    sendrpid = models.CharField(max_length=3, blank=True, null=True)
+    sendrpid = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     outboundproxy = models.CharField(max_length=40, blank=True, null=True)
     callbackextension = models.CharField(max_length=40, blank=True, null=True)
     timert1 = models.IntegerField(blank=True, null=True)
     timerb = models.IntegerField(blank=True, null=True)
     qualifyfreq = models.IntegerField(blank=True, null=True)
-    constantssrc = models.CharField(max_length=3, blank=True, null=True)
+    constantssrc = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     contactpermit = models.CharField(max_length=95, blank=True, null=True)
     contactdeny = models.CharField(max_length=95, blank=True, null=True)
-    usereqphone = models.CharField(max_length=3, blank=True, null=True)
-    textsupport = models.CharField(max_length=3, blank=True, null=True)
-    faxdetect = models.CharField(max_length=3, blank=True, null=True)
-    buggymwi = models.CharField(max_length=3, blank=True, null=True)
+    usereqphone = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    textsupport = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    faxdetect = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    buggymwi = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     auth = models.CharField(max_length=40, blank=True, null=True)
     fullname = models.CharField(max_length=40, blank=True, null=True)
     trunkname = models.CharField(max_length=40, blank=True, null=True)
     cid_number = models.CharField(max_length=40, blank=True, null=True)
-    callingpres = models.CharField(max_length=21, blank=True, null=True)
+    choices = ['allowed_not_screened','allowed_passed_screen','allowed_failed_screen','allowed','prohib_not_screened','prohib_passed_screen','prohib_failed_screen','prohib']
+    callingpres = models.CharField(max_length=21, blank=True, null=True, choices = [
+        (choice, choice) for choice in choices
+    ])
     mohinterpret = models.CharField(max_length=40, blank=True, null=True)
     mohsuggest = models.CharField(max_length=40, blank=True, null=True)
     parkinglot = models.CharField(max_length=40, blank=True, null=True)
-    hasvoicemail = models.CharField(max_length=3, blank=True, null=True)
-    subscribemwi = models.CharField(max_length=3, blank=True, null=True)
+    hasvoicemail = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    subscribemwi = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     vmexten = models.CharField(max_length=40, blank=True, null=True)
-    autoframing = models.CharField(max_length=3, blank=True, null=True)
+    autoframing = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     rtpkeepalive = models.IntegerField(blank=True, null=True)
-    # Field renamed to remove unsuitable characters.
-    call_limit = models.IntegerField(
-        db_column='call-limit', blank=True, null=True)
-    g726nonstandard = models.CharField(max_length=3, blank=True, null=True)
-    ignoresdpversion = models.CharField(max_length=3, blank=True, null=True)
-    allowtransfer = models.CharField(max_length=3, blank=True, null=True)
-    dynamic = models.CharField(max_length=3, blank=True, null=True)
+    call_limit = models.IntegerField(db_column='call-limit', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    g726nonstandard = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    ignoresdpversion = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    allowtransfer = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
+    dynamic = models.CharField(max_length=3, blank=True, null=True, choices=[
+        ('yes', 'yes'), ('no', 'no')
+    ])
     acl = models.CharField(max_length=15, blank=True, null=True)
-
     class Meta:
         managed = False
         db_table = 'ast_sipfriends'
