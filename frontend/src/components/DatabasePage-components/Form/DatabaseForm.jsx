@@ -66,6 +66,7 @@ export default function DatabaseForm() {
               schema={schema}
               onSubmit={handleSubmit}
               formMessage={formMessage}
+              setFormMessage={setFormMessage}
               data={data}
             />
           )}
@@ -78,6 +79,7 @@ export default function DatabaseForm() {
               schema={schema}
               onSubmit={handleSubmit}
               formMessage={formMessage}
+              setFormMessage={setFormMessage}
               data={{}}
             />
           )}

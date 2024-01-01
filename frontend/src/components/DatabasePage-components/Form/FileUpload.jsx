@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 import { Button, Grid, Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const FileUpload = () => {
+const FileUpload = ({ setFormMessage }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { post } = useAxios();
+  const { post, options } = useAxios();
   const { table } = useParams();
 
   const handleFileChange = (event) => {
@@ -20,7 +20,6 @@ const FileUpload = () => {
   const handleUpload = async () => {
     if (!selectedFile) return;
 
-    // Read the file content as text
     const reader = new FileReader();
     reader.onload = async (event) => {
       const text = event.target.result;
@@ -28,18 +27,17 @@ const FileUpload = () => {
         header: true,
       });
 
-      // Process each row of parsed CSV data and post to the backend
-      for (const row of parsedData.data) {
-        try {
-          // Post each row to the backend API endpoint
-          await post(`/${table}s/`, row);
+      try {
+        // Post the entire parsed CSV data as bulk operation to the backend
+        await post(`/${table}s/add_multiple_rows/`, parsedData.data);
 
-          // Handle success
-          console.log("Row posted:", row);
-        } catch (error) {
-          // Handle error
-          console.error("Error posting row:", error);
-        }
+        // Handle success
+        console.log("CSV data posted:", parsedData.data);
+        setFormMessage("Success");
+      } catch (error) {
+        // Handle error
+        console.error("Error posting CSV data:", error);
+        setFormMessage("Invalid Data");
       }
     };
     reader.readAsText(selectedFile);

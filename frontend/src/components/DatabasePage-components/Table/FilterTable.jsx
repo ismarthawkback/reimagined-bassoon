@@ -95,8 +95,9 @@ const FilterTable = () => {
         let ids = [];
         for (const selectedId of selectionModel) {
           ids.push(selectedId);
-          await post(`/${table}s/delete_multiple_rows/`, { ids: ids }); // Adjust the API endpoint as per your backend
+          // Adjust the API endpoint as per your backend
         }
+        await post(`/${table}s/delete_multiple_rows/`, { ids: ids });
         // After deletion, refresh the data
         fetchData();
         setSelectionModel([]); // Clear selection after deletion

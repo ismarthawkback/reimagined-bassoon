@@ -26,7 +26,13 @@ const formReducer = (state, action) => {
   }
 };
 
-const DynamicForm = ({ schema, onSubmit, formMessage, data }) => {
+const DynamicForm = ({
+  schema,
+  onSubmit,
+  formMessage,
+  setFormMessage,
+  data,
+}) => {
   const [formData, dispatch] = useReducer(formReducer, { ...data });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -105,7 +111,7 @@ const DynamicForm = ({ schema, onSubmit, formMessage, data }) => {
           setSnackbarOpen(false);
           // console.log("Hello World");
           window.history.back(); // Go back to the previous page
-        }, 3000); // Delay for 2 seconds before hiding the Snackbar and going back
+        }, 2000); // Delay for 2 seconds before hiding the Snackbar and going back
       }
     }
   }, [formMessage]);
@@ -132,7 +138,7 @@ const DynamicForm = ({ schema, onSubmit, formMessage, data }) => {
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />
-      <FileUpload />
+      <FileUpload setFormMessage={setFormMessage} />
     </>
   );
 };
