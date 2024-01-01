@@ -9,15 +9,25 @@ export default function DatabaseForm() {
   const { table, id } = useParams();
   const [schema, setSchema] = useState(null);
   const [formMessage, setFormMessage] = useState(null);
+  const [data, setData] = useState(null);
   // console.log(table, id)
-  const { options, post } = useAxios();
+  const { options, post, get, put } = useAxios();
 
   useEffect(() => {
     const fetchOptions = async () => {
       const res = await options("/" + table + "s");
       setSchema(res.actions.POST);
     };
+
+    const fetchData = async () => {
+      const res = await get(`/${table}s/${id}`);
+      console.log(res);
+      setData({ ...res });
+    };
     fetchOptions();
+    if (id) {
+      fetchData();
+    }
   }, []);
 
   console.log(schema);
@@ -32,6 +42,16 @@ export default function DatabaseForm() {
         console.log("Error");
         setFormMessage("Check Fields");
       }
+    } else {
+      try {
+        console.log("tried update");
+        console.log(formData);
+        await put(`/${table}s/${id}/`, formData);
+        setFormMessage("Success");
+      } catch (err) {
+        console.log("error while update");
+        setFormMessage("check Fields");
+      }
     }
   };
 
@@ -39,7 +59,17 @@ export default function DatabaseForm() {
     <>
       <DatabaseBreadCrumbs />
       {id ? (
-        <Typography variant="h6">You are editing {id} row.</Typography>
+        <>
+          <Typography variant="h6">You are editing {id} row.</Typography>
+          {schema && data && (
+            <DynamicForm
+              schema={schema}
+              onSubmit={handleSubmit}
+              formMessage={formMessage}
+              data={data}
+            />
+          )}
+        </>
       ) : (
         // <Typography variant="h6">You are creating a new row.</Typography>
         <>

@@ -34,24 +34,26 @@ const FilterTable = () => {
         width: 200,
       }));
 
-      generatedColumns.unshift({
-        field: "edit",
-        headerName: "Edit",
-        width: 50,
-        sortable: false,
-        filterable: false,
-        disableColumnMenu: true,
-        renderCell: (params) => (
-          <IconButton
-            onClick={() => {
-              navigate(pathname + "/" + params.row.id);
-            }}
-            aria-label="edit"
-          >
-            <EditIcon />
-          </IconButton>
-        ),
-      });
+      if (table !== "astcdr") {
+        generatedColumns.unshift({
+          field: "edit",
+          headerName: "Edit",
+          width: 50,
+          sortable: false,
+          filterable: false,
+          disableColumnMenu: true,
+          renderCell: (params) => (
+            <IconButton
+              onClick={() => {
+                navigate(pathname + "/" + params.row.id);
+              }}
+              aria-label="edit"
+            >
+              <EditIcon />
+            </IconButton>
+          ),
+        });
+      }
 
       setColumns(generatedColumns);
       setRows(res);
@@ -104,7 +106,7 @@ const FilterTable = () => {
 
   return (
     <div style={{ height: "65vh", width: "100%" }}>
-      {selectionModel.length === 0 ? (
+      {selectionModel.length === 0 && table != "astcdr" ? (
         <SpeedDial
           ariaLabel="SpeedDial basic example"
           sx={{ position: "absolute", top: 150, right: 48 }}
