@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -11,6 +11,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Snackbar,
 } from "@mui/material"; // Import appropriate Material UI components for date and time pickers
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
@@ -24,8 +25,10 @@ const formReducer = (state, action) => {
   }
 };
 
-const DynamicForm = ({ schema, onSubmit }) => {
+const DynamicForm = ({ schema, onSubmit, formMessage }) => {
   const [formData, dispatch] = useReducer(formReducer, {});
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   // Handle field changes by dispatching an action
   const handleChange = (fieldName, value) => {
@@ -38,6 +41,9 @@ const DynamicForm = ({ schema, onSubmit }) => {
   };
 
   const renderField = (fieldName, fieldData) => {
+    if (fieldName === "id") {
+      return <></>;
+    }
     if (fieldData.type === "choice") {
       return (
         <div key={fieldName}>
@@ -88,21 +94,44 @@ const DynamicForm = ({ schema, onSubmit }) => {
     }
   };
 
+  useEffect(() => {
+    if (formMessage) {
+      setSnackbarMessage(formMessage);
+      setSnackbarOpen(true);
+
+      if (formMessage === "Success") {
+        setTimeout(() => {
+          setSnackbarOpen(false);
+          // console.log("Hello World");
+          window.history.back(); // Go back to the previous page
+        }, 3000); // Delay for 2 seconds before hiding the Snackbar and going back
+      }
+    }
+  }, [formMessage]);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        {Object.entries(schema).map(([fieldName, fieldData]) => (
-          <Grid item xs={12} key={fieldName}>
-            {renderField(fieldName, fieldData)}
+    <>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          {Object.entries(schema).map(([fieldName, fieldData]) => (
+            <Grid item xs={12} key={fieldName}>
+              {renderField(fieldName, fieldData)}
+            </Grid>
+          ))}
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
           </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
         </Grid>
-      </Grid>
-    </form>
+      </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000} // Hides after 2 seconds
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
+    </>
   );
 };
 

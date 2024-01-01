@@ -8,6 +8,7 @@ import DynamicForm from "./DynamicForm";
 export default function DatabaseForm() {
   const { table, id } = useParams();
   const [schema, setSchema] = useState(null);
+  const [formMessage, setFormMessage] = useState(null);
   // console.log(table, id)
   const { options, post } = useAxios();
 
@@ -23,16 +24,16 @@ export default function DatabaseForm() {
 
   const handleSubmit = async (formData) => {
     console.log("post data");
-    console.log(formData);
-    // try {
-    //   // Make a POST request with the form data
-    //   const response = await axios.post('/api/your_endpoint', formData);
-    //   console.log('Form submitted successfully:', response.data);
-    // } catch (error) {
-    //   console.error('Error submitting form:', error);
-    // }
+    if (!id) {
+      try {
+        await post(`/${table}s/`, formData);
+        setFormMessage("Success");
+      } catch (err) {
+        console.log("Error");
+        setFormMessage("Check Fields");
+      }
+    }
   };
-  // console.log(schema);
 
   return (
     <>
@@ -41,7 +42,15 @@ export default function DatabaseForm() {
         <Typography variant="h6">You are editing {id} row.</Typography>
       ) : (
         // <Typography variant="h6">You are creating a new row.</Typography>
-        <>{schema && <DynamicForm schema={schema} onSubmit={handleSubmit} />}</>
+        <>
+          {schema && (
+            <DynamicForm
+              schema={schema}
+              onSubmit={handleSubmit}
+              formMessage={formMessage}
+            />
+          )}
+        </>
       )}
     </>
   );

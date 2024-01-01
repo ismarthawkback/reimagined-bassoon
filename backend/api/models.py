@@ -272,33 +272,33 @@ class AstSipfriends(models.Model):
 #         db_table = 'ast_voicemail_users'
 
 
-class VoicemailUsers(models.Model):
-    uniqueid = models.AutoField(primary_key=True)
-    customer_id = models.CharField(max_length=11)
-    context = models.CharField(max_length=50)
-    mailbox = models.CharField(max_length=11)
-    password = models.CharField(max_length=10)
-    fullname = models.CharField(max_length=150)
-    email = models.CharField(max_length=50)
-    pager = models.CharField(max_length=50)
-    tz = models.CharField(max_length=10)
-    attach = models.CharField(max_length=4)
-    saycid = models.CharField(max_length=4)
-    dialout = models.CharField(max_length=10)
-    callback = models.CharField(max_length=10)
-    review = models.CharField(max_length=4)
-    operator = models.CharField(max_length=4)
-    envelope = models.CharField(max_length=4)
-    sayduration = models.CharField(max_length=4)
-    saydurationm = models.IntegerField()
-    sendvoicemail = models.CharField(max_length=4)
-    delete = models.CharField(max_length=4)
-    nextaftercmd = models.CharField(max_length=4)
-    forcename = models.CharField(max_length=4)
-    forcegreetings = models.CharField(max_length=4)
-    hidefromdir = models.CharField(max_length=4)
-    stamp = models.DateTimeField()
+# class VoicemailUsers(models.Model):
+#     uniqueid = models.AutoField(primary_key=True)
+#     customer_id = models.CharField(max_length=11)
+#     context = models.CharField(max_length=50)
+#     mailbox = models.CharField(max_length=11)
+#     password = models.CharField(max_length=10)
+#     fullname = models.CharField(max_length=150)
+#     email = models.CharField(max_length=50)
+#     pager = models.CharField(max_length=50)
+#     tz = models.CharField(max_length=10)
+#     attach = models.CharField(max_length=4)
+#     saycid = models.CharField(max_length=4)
+#     dialout = models.CharField(max_length=10)
+#     callback = models.CharField(max_length=10)
+#     review = models.CharField(max_length=4)
+#     operator = models.CharField(max_length=4)
+#     envelope = models.CharField(max_length=4)
+#     sayduration = models.CharField(max_length=4)
+#     saydurationm = models.IntegerField()
+#     sendvoicemail = models.CharField(max_length=4)
+#     delete = models.CharField(max_length=4)
+#     nextaftercmd = models.CharField(max_length=4)
+#     forcename = models.CharField(max_length=4)
+#     forcegreetings = models.CharField(max_length=4)
+#     hidefromdir = models.CharField(max_length=4)
+#     stamp = models.DateTimeField()
 
-    class Meta:
-        managed = False
-        db_table = 'voicemail_users'
+#     class Meta:
+#         managed = False
+#         db_table = 'voicemail_users'
