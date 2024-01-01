@@ -18,7 +18,7 @@ const FilterTable = () => {
   const [selectionModel, setSelectionModel] = React.useState([]);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { get, del } = useAxios();
+  const { get, del, post } = useAxios();
   const { table } = useParams();
 
   const [rows, setRows] = useState(null);
@@ -92,8 +92,10 @@ const FilterTable = () => {
   const handleDeleteButtonClick = async () => {
     if (selectionModel.length > 0) {
       try {
+        let ids = [];
         for (const selectedId of selectionModel) {
-          await del(`/${table}s/${selectedId}`); // Adjust the API endpoint as per your backend
+          ids.push(selectedId);
+          await post(`/${table}s/delete_multiple_rows/`, { ids: ids }); // Adjust the API endpoint as per your backend
         }
         // After deletion, refresh the data
         fetchData();

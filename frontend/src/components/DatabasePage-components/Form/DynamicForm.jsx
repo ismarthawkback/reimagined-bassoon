@@ -14,6 +14,7 @@ import {
   Snackbar,
 } from "@mui/material"; // Import appropriate Material UI components for date and time pickers
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import FileUpload from "./FileUpload";
 
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -131,6 +132,7 @@ const DynamicForm = ({ schema, onSubmit, formMessage, data }) => {
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />
+      <FileUpload />
     </>
   );
 };
