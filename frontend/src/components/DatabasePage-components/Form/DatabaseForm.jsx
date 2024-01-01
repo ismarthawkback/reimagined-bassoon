@@ -48,6 +48,7 @@ export default function DatabaseForm() {
               schema={schema}
               onSubmit={handleSubmit}
               formMessage={formMessage}
+              data={{}}
             />
           )}
         </>

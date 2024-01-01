@@ -18,8 +18,10 @@ for model in app_models:
     })
     viewset_class = type(f'{model.__name__}ViewSet', (viewsets.ModelViewSet,), {
         'queryset': model.objects.all(),
-        'serializer_class': serializer_class,
+        'serializer_class': serializer_class, 
     })
+    
+
     router.register(f'{model.__name__.lower()}s', viewset_class)  
 
 urlpatterns = router.urls

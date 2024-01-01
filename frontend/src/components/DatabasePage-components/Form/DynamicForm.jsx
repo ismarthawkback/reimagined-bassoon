@@ -25,8 +25,8 @@ const formReducer = (state, action) => {
   }
 };
 
-const DynamicForm = ({ schema, onSubmit, formMessage }) => {
-  const [formData, dispatch] = useReducer(formReducer, {});
+const DynamicForm = ({ schema, onSubmit, formMessage, data }) => {
+  const [formData, dispatch] = useReducer(formReducer, { ...data });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
