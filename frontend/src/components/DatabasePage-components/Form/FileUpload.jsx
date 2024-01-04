@@ -44,8 +44,15 @@ const FileUpload = ({ setFormMessage }) => {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid
+      container
+      spacing={2}
+      direction={"row"}
+      sx={{
+        marginTop: 2,
+      }}
+    >
+      <Grid item xs={6}>
         <input
           accept=".csv"
           style={{ display: "none" }}
@@ -63,7 +70,7 @@ const FileUpload = ({ setFormMessage }) => {
           </Button>
         </label>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={6}>
         {selectedFile && (
           <Typography variant="body1">
             Selected File: {selectedFile.name}

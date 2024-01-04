@@ -12,6 +12,7 @@ import {
   Select,
   MenuItem,
   Snackbar,
+  Box,
 } from "@mui/material"; // Import appropriate Material UI components for date and time pickers
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import FileUpload from "./FileUpload";
@@ -138,6 +139,8 @@ const DynamicForm = ({
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />
+
+      
       <FileUpload setFormMessage={setFormMessage} />
     </>
   );
