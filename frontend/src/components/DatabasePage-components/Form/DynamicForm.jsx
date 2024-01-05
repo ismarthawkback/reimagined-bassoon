@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -38,6 +39,9 @@ const DynamicForm = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
+  // get params
+  const k = useParams();
+  console.log(k);
   // Handle field changes by dispatching an action
   const handleChange = (fieldName, value) => {
     dispatch({ type: "UPDATE_FIELD", fieldName, value });
@@ -140,8 +144,7 @@ const DynamicForm = ({
         message={snackbarMessage}
       />
 
-      
-      <FileUpload setFormMessage={setFormMessage} />
+      {!("id" in k) && <FileUpload setFormMessage={setFormMessage} />}
     </>
   );
 };
